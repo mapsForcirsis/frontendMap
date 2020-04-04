@@ -1,32 +1,32 @@
-import React from 'react'
-import { Map as LeafletMap, TileLayer, Marker, Popup } from 'react-leaflet';
+import React, { Component } from 'react';
+import './App.css';
+import MyMap from './Map';
+import Grid from '@material-ui/core/Grid';
 
-class App extends React.Component {
+class App extends Component {
+  
+  constructor(props) {
+    super(props)
+    this.firsttimeitloadsthemap = true
+    this.state = {
+      lanName:''
+    }
+  }
+
+  HandleLanName=(lanName)=>{
+    this.setState({lanName})
+  }
   render() {
+    let lanName=this.state.lanName
     return (
-      <LeafletMap
-        center={[50, 10]}
-        zoom={6}
-        maxZoom={10}
-        attributionControl={true}
-        zoomControl={true}
-        doubleClickZoom={true}
-        scrollWheelZoom={true}
-        dragging={true}
-        animate={true}
-        easeLinearity={0.35}
-      >
-        <TileLayer
-          url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
-        />
-        <Marker position={[50, 10]}>
-          <Popup>
-            Popup for any custom information.
-          </Popup>
-        </Marker>
-      </LeafletMap>
+      <Grid container className="App">
+        <Grid item sm={6}> <h1>{lanName}</h1>
+</Grid>
+        <Grid item sm={6}><MyMap LanName={(e)=>this.HandleLanName(e)}/></Grid>
+        
+      </Grid>
     );
   }
 }
 
-export default App
+export default App;
