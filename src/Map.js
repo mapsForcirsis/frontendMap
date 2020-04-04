@@ -23,6 +23,7 @@ class App extends React.Component {
       lng: 18,
       zoom: 5,
       bluemarble: false,
+      clickedLanskod: 0
     }
   }
   handleMoveend = (e) => {
@@ -31,6 +32,11 @@ class App extends React.Component {
     this.firsttimeitloadsthemap = false
   }
   lanClick=(e)=>{
+
+    this.setState(old =>{
+      console.log(e.properties.lanskod)
+      return {...old, clickedLanskod: e.properties.lanskod}
+    })
       let lanName= e.properties.lansnamn
       this.props.LanName(lanName)
   }
@@ -60,7 +66,9 @@ let superCord=[]
         })
         superCord.push(ArrCords)        
       })
-     return <Polygon onClick={(e)=>this.lanClick(lanne)} key={i} positions={superCord} color="green" />
+      console.log(lanne.properties.lanskod)
+      console.log(this.state.clickedLanskod)
+     return <Polygon onClick={(e)=>this.lanClick(lanne)} key={i} positions={superCord} color={this.state.clickedLanskod == lanne.properties.lanskod ? "#B8860B" : "green"} />
     })}
   </LeafletMap>
 
