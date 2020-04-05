@@ -86,9 +86,14 @@ class App extends React.Component {
             superCord.push(ArrCords)
           })
           let number = Math.random();
-
-          return <Polygon onClick={(e) => this.lanClick(lanne, e)} key={i} positions={superCord} color={number < 0.5 ? "green" : "red"} />
-        })}
+          if(this.state.clickedLanskod == lanne.properties.lanskod){
+            return <Polygon onClick={(e) => this.lanClick(lanne, e)} key={i} positions={superCord} fillOpacity={0.3} color={"gray"} />
+          }
+          else{
+            return <Polygon onClick={(e) => this.lanClick(lanne, e)} key={i} positions={superCord} color={number < 0.5 ? "green" : "red"} />
+        
+          }
+          })}
 
         {
           kommun.features.map((kommun, i) => {
@@ -110,8 +115,7 @@ class App extends React.Component {
             }
             let kommunkodIntValue = parseInt(tempString, 10);
             if (kommunkodIntValue == this.state.clickedLanskod) {
-              let number = Math.random();
-              return <Polygon onClick={(e) => this.kommunClick(kommun, e)} key={i} positions={kommunCord} color={ number < 0.5 ? "white" : "blue"} />
+              return <Polygon onClick={(e) => this.kommunClick(kommun, e)} key={i} positions={kommunCord} color={this.state.clickedKommunkod == parseInt(kommun.properties.kommunkod) ? "white" : "#736e6e"} />
             }
 
 
@@ -126,7 +130,7 @@ class App extends React.Component {
               let vardCords = this.vardCords;
               vardCords.push(vard.coords);
               let number = Math.random();
-              return <CircleMarker key={key} center={vard.coords} color={ number < 0.5 ? "brown" : "gold"} radius={6}>
+              return <CircleMarker key={key} center={vard.coords} color={"white"} radius={6}>
                 <Tooltip>
                   {vard.namn}
                 </Tooltip>
