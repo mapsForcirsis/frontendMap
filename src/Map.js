@@ -39,7 +39,7 @@ class App extends React.Component {
     this.map.leafletElement.setView([event.latlng.lat, event.latlng.lng], 2)
     // this.map.setView([event.latlng.lat, event.latlng.lng]);
     this.setState(old => {
-      return { ...old, clickedLanskod: e.properties.lanskod }
+      return { ...old, clickedLanskod: e.properties.lanskod,clickedKommunkod:0 }
     })
     let lanName = e.properties.lansnamn
     this.props.LanName(lanName)
@@ -86,12 +86,19 @@ class App extends React.Component {
             superCord.push(ArrCords)
           })
           let number = Math.random();
-          if(this.state.clickedLanskod == lanne.properties.lanskod){
-            return <Polygon onClick={(e) => this.lanClick(lanne, e)} key={i} positions={superCord} fillOpacity={0.3} color={"gray"} />
+          if(this.state.clickedLanskod == 0){
+            return <Polygon onClick={(e) => this.lanClick(lanne, e)} key={i} positions={superCord} color={number > 0.4 ? "#339900" : number > 0.2 ? "#FFFF00": "#FF0033"} />
+
           }
           else{
-            return <Polygon onClick={(e) => this.lanClick(lanne, e)} key={i} positions={superCord} color={number < 0.5 ? "green" : "red"} />
-        
+
+            if(this.state.clickedLanskod == lanne.properties.lanskod){
+              return <Polygon onClick={(e) => this.lanClick(lanne, e)} key={i} positions={superCord} fillOpacity={0.3} color={"gray"} />
+            }
+            else{
+              return <Polygon onClick={(e) => this.lanClick(lanne, e)} key={i} positions={superCord} color={number < 0.5 ? "green" : "red"} />
+          
+            }
           }
           })}
 
@@ -115,17 +122,19 @@ class App extends React.Component {
             }
             let kommunkodIntValue = parseInt(tempString, 10);
             if (kommunkodIntValue == this.state.clickedLanskod) {
-              return <Polygon onClick={(e) => this.kommunClick(kommun, e)} key={i} positions={kommunCord} color={this.state.clickedKommunkod == parseInt(kommun.properties.kommunkod) ? "white" : "#736e6e"} />
-            }
-
-
+              if(this.state.clickedKommunkod== 0){
+                let number = Math.random();
+                return <Polygon onClick={(e) => this.kommunClick(kommun, e)} key={i} positions={kommunCord} color={number > 0.5 ? number > 0.75 ? "#339900" : "#99FF33": number > 0.25 ? "#FFFF00": "#FF0033"} />
+            
+              }else{
+                return <Polygon onClick={(e) => this.kommunClick(kommun, e)} key={i} positions={kommunCord} color={this.state.clickedKommunkod == parseInt(kommun.properties.kommunkod) ? "white" : "#736e6e"} />
+            
+              }
+             }
           })
-
         }
-
         {
           vardgivareGBG.map((vard, key) => {
-
             if (this.state.clickedKommunkod == 1480) {
               let vardCords = this.vardCords;
               vardCords.push(vard.coords);
@@ -139,9 +148,6 @@ class App extends React.Component {
           })
         }
       </LeafletMap>
-
-
-
     );
   }
 }
