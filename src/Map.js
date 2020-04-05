@@ -18,6 +18,7 @@ const crs = new L.Proj.CRS('EPSG:3006',
 class App extends React.Component {
   constructor(props) {
     super(props)
+    this.lanclicked=false
     this.firsttimeitloadsthemap = true
     this.vardCords = []
     this.state = {
@@ -60,7 +61,10 @@ class App extends React.Component {
 
   }
 
+
+  
   render() {
+    
     return (
 
       <LeafletMap center={[62, 18]} zoom={1} crs={crs} ref={(ref) => { this.map = ref; }} >
@@ -86,6 +90,7 @@ class App extends React.Component {
             superCord.push(ArrCords)
           })
           let number = Math.random();
+          
           if(this.state.clickedLanskod == 0){
             return <Polygon onClick={(e) => this.lanClick(lanne, e)} key={i} positions={superCord} color={number > 0.4 ? "#339900" : number > 0.2 ? "#FFFF00": "#FF0033"} />
 
@@ -96,7 +101,7 @@ class App extends React.Component {
               return <Polygon onClick={(e) => this.lanClick(lanne, e)} key={i} positions={superCord} fillOpacity={0.3} color={"gray"} />
             }
             else{
-              return <Polygon onClick={(e) => this.lanClick(lanne, e)} key={i} positions={superCord} color={number < 0.5 ? "green" : "red"} />
+              return <Polygon onClick={(e) => this.lanClick(lanne, e)} key={i} positions={superCord} color={"gray"} />
           
             }
           }
